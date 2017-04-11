@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations"> &lt;!&ndash; PropertyPlaceholderConfigurer类中有个locations属性，接收的是一个数组，即我们可以在下面配好多个properties文件 &ndash;&gt;
+            <array>
+                <value>classpath:jdbc.properties</value>
+            </array>
+        </property>
+    </bean>-->
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+    <context:component-scan base-package="com.fjykt"/>
+
+    <jdbc:embedded-database id="dataSource" type="HSQL">
+        <jdbc:script location="classpath:db/scheme.sql"/>
+        <jdbc:script location="classpath:db/data.sql"/>
+    </jdbc:embedded-database>
+
+    <!-- <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+         &lt;!&ndash; 基本属性 url、user、password &ndash;&gt;
+         <property name="url" value="${jdbc.url}" />
+         <property name="username" value="${jdbc.user}" />
+         <property name="password" value="${jdbc.password}" />
+
+         &lt;!&ndash; 配置初始化大小、最小、最大 &ndash;&gt;
+         <property name="initialSize" value="1" />
+         <property name="minIdle" value="1" />
+         <property name="maxActive" value="1" />
+
+         &lt;!&ndash; 配置获取连接等待超时的时间 &ndash;&gt;
+         <property name="maxWait" value="60000" />
+
+         &lt;!&ndash; 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 &ndash;&gt;
+         <property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+         &lt;!&ndash; 配置一个连接在池中最小生存的时间，单位是毫秒 &ndash;&gt;
+         <property name="minEvictableIdleTimeMillis" value="300000" />
+
+         <property name="validationQuery" value="SELECT 'x'" />
+         <property name="testWhileIdle" value="true" />
+         <property name="testOnBorrow" value="false" />
+         <property name="testOnReturn" value="false" />
+
+         &lt;!&ndash; 打开PSCache，并且指定每个连接上PSCache的大小 &ndash;&gt;
+         <property name="poolPreparedStatements" value="true" />
+         <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+
+         &lt;!&ndash; 配置监控统计拦截的filters，去掉后监控界面sql无法统计 &ndash;&gt;
+         <property name="filters" value="stat" />
+     </bean>-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.fjykt.mapper"/>
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+        <constructor-arg index="1" value="BATCH"/>
+    </bean>
+
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
+</beans>
