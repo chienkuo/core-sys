@@ -11,7 +11,6 @@ import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.downloader.AbstractDownloader;
-import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.PlainText;
 
 import java.io.Closeable;
@@ -84,11 +83,10 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
             return null;
         }
         logger.info("downloading page " + request.getUrl());
-        try{
+        try {
             webDriver.get(request.getUrl());
-        }catch (Exception e){
-            webDriver.quit();
-            e.printStackTrace();
+        } catch (Exception e) {
+            webDriverPool.release(webDriver);
             this.onError(request);
             return null;
         }
@@ -109,12 +107,6 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
                 manage.addCookie(cookie);
             }
         }
-
-		/*
-         * TODO You can add mouse event or other processes
-		 *
-		 * @author: bob.li.0718@gmail.com
-		 */
 
         WebElement webElement = webDriver.findElement(By.xpath("/html"));
         String content = webElement.getAttribute("outerHTML");

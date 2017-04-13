@@ -32,7 +32,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *         Time: 下午1:41 <br>
  */
 class WebDriverPool {
-    //private Logger logger = Logger.getLogger(getClass());
 
     private final static int DEFAULT_CAPACITY = 5;
 
@@ -219,6 +218,12 @@ class WebDriverPool {
     public void returnToPool(WebDriver webDriver) {
         checkRunning();
         innerQueue.add(webDriver);
+    }
+
+    public void release(WebDriver webDriver) {
+        checkRunning();
+        webDriver.quit();
+        webDriverList.remove(webDriver);
     }
 
     protected void checkRunning() {
