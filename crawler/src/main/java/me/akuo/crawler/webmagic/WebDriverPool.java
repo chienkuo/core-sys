@@ -220,12 +220,6 @@ class WebDriverPool {
         checkRunning();
         innerQueue.add(webDriver);
     }
-    public WebDriver releaseAndGet (WebDriver webDriver) throws Exception {
-        checkRunning();
-        webDriver.quit();
-        innerQueue.remove(webDriver);
-        return get();
-    }
 
     protected void checkRunning() {
         if (!stat.compareAndSet(STAT_RUNNING, STAT_RUNNING)) {
@@ -242,15 +236,6 @@ class WebDriverPool {
             logger.info("Quit webDriver" + webDriver);
             webDriver.quit();
             webDriver = null;
-        }
-    }
-
-    public void returnAll() {
-        checkRunning();
-
-        for (WebDriver webDriver : webDriverList) {
-            //logger.info("Quit webDriver" + webDriver);
-            innerQueue.add(webDriver);
         }
     }
 

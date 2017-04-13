@@ -87,12 +87,10 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
         try{
             webDriver.get(request.getUrl());
         }catch (Exception e){
-            try {
-                webDriver = webDriverPool.releaseAndGet(webDriver);
-                webDriver.get(request.getUrl());
-            } catch (Exception e1){
-                e1.printStackTrace();
-            }
+            webDriver.quit();
+            e.printStackTrace();
+            this.onError(request);
+            return null;
         }
         try {
             Thread.sleep(sleepTime);

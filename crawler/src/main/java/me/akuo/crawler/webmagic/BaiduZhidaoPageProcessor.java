@@ -25,6 +25,7 @@ public class BaiduZhidaoPageProcessor implements PageProcessor {
 
         String answerId = page.getHtml().xpath("//div[@class='wgt-best']/@id").toString();
         if (answerId != null && answerId.startsWith("best-answer-")) {
+            System.out.println(page.getUrl().get());
             System.out.println(page.getHtml().xpath("//span[@class='ask-title']/text()").toString());
             answerId = answerId.replace("best-", "");
             System.out.println(page.getHtml().xpath("//div[@id='" + answerId + "']/div[@class='content']/html()").toString());
