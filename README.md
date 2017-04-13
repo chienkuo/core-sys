@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/chienkuo/core-sys.svg?branch=master)](https://travis-ci.org/chienkuo/core-sys) 
