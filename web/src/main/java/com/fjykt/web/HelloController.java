@@ -22,4 +22,9 @@ public class HelloController {
         System.out.println(helloWorld.sayHello(s));
         return helloWorld.sayHello(s).toString();
     }
+
+    @RequestMapping(value = "webjarstest")
+    public String webjars(){
+        return "test/webjars";
+    }
 }
