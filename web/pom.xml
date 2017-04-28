@@ -80,7 +80,6 @@
                         <contextPath>/</contextPath>
                     </webApp>
                     <stopPort>60000</stopPort>
-                    <port>8000</port>
                 </configuration>
             </plugin>
         </plugins>
