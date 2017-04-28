@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/")
 public class HelloController {
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0", check =  false)
     private HelloWorld helloWorld;
 
     @RequestMapping(value = "/hello.json")
