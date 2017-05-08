@@ -4,8 +4,6 @@ package me.akuo.crawler.webmagic;
  * Created by Akuo on 2017/4/12.
  */
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,6 +11,8 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,6 +33,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 class WebDriverPool {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverPool.class);
+
     private final static int DEFAULT_CAPACITY = 5;
 
     private final int capacity;
@@ -41,7 +43,6 @@ class WebDriverPool {
 
     private final static int STAT_CLODED = 2;
 
-    private static Logger logger = LogManager.getLogger();
     private AtomicInteger stat = new AtomicInteger(STAT_RUNNING);
 
     /*
@@ -201,7 +202,7 @@ class WebDriverPool {
                         innerQueue.add(mDriver);
                         webDriverList.add(mDriver);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOGGER.error(e.getMessage());
                     }
 
                     // ChromeDriver e = new ChromeDriver();
@@ -238,9 +239,8 @@ class WebDriverPool {
             throw new IllegalStateException("Already closed!");
         }
         for (WebDriver webDriver : webDriverList) {
-            logger.info("Quit webDriver" + webDriver);
+            LOGGER.info("Quit webDriver" + webDriver);
             webDriver.quit();
-            webDriver = null;
         }
     }
 

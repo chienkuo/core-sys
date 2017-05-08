@@ -1,11 +1,11 @@
 package me.akuo.crawler.webmagic;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class SeleniumDownloader extends AbstractDownloader implements Closeable {
 
     private static volatile WebDriverPool webDriverPool;
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SeleniumDownloader.class);
 
     private int sleepTime = 0;
 
@@ -78,11 +78,11 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
         try {
             webDriver = webDriverPool.get();
         } catch (InterruptedException e) {
-            logger.warn("interrupted", e);
+            LOGGER.warn("interrupted", e);
             this.onError(request);
             return null;
         }
-        logger.info("downloading page " + request.getUrl());
+        LOGGER.info("downloading page " + request.getUrl());
         try {
             webDriver.get(request.getUrl());
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
         try {
             Thread.sleep(sleepTime);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             this.onError(request);
             return null;
         }
