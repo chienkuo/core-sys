@@ -2,8 +2,12 @@ package me.akuo;
 
 import com.google.gson.Gson;
 import me.akuo.httpclient.HttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +16,12 @@ import java.util.Map;
  */
 public class Main {
     private static Gson gson = new Gson();
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws Exception {
+    private Main() {
+    }
+
+    public static void main(String[] args) {
         if (args.length < 1) {
             return;
         }
@@ -25,13 +33,20 @@ public class Main {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 line = line.trim();
                 // do something here
-                doQuery(line);
+                try {
+                    doQuery(line);
+                } catch (NoSuchAlgorithmException e) {
+                    logger.error(e.getMessage());
+                } catch (KeyManagementException e) {
+                    logger.error(e.getMessage());
+                }
+
             }
 
         } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
+            logger.error(fnfe.getMessage());
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.error(ioe.getMessage());
         } finally {
             try {
                 if (is != null) {
@@ -44,7 +59,7 @@ public class Main {
         }
     }
 
-    private static void doQuery(String num) throws Exception {
+    private static void doQuery(String num) throws NoSuchAlgorithmException, KeyManagementException, IOException {
         String url = "https://www.kuaidi100.com/autonumber/autoComNum?text=" + num;
         String resp1 = HttpClient.basicHttpsGetIgnoreCertificateValidation(url);
         Map<String, Object> map = gson.fromJson(resp1, Map.class);

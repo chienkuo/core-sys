@@ -13,6 +13,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.security.cert.X509Certificate;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
 /**
@@ -26,7 +29,7 @@ public class HttpClient {
         basicHttpsGetIgnoreCertificateValidation(url);
     }
 
-    public static String basicHttpsGetIgnoreCertificateValidation(String url) throws Exception {
+    public static String basicHttpsGetIgnoreCertificateValidation(String url) throws NoSuchAlgorithmException, KeyManagementException, IOException {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
