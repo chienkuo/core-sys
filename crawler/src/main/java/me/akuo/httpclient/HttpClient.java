@@ -1,6 +1,5 @@
 package me.akuo.httpclient;
 
-import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.security.cert.X509Certificate;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -24,7 +22,10 @@ import java.security.cert.CertificateException;
  * Created by Akuo on 2017/4/20.
  */
 public class HttpClient {
-    private static Gson gson = new Gson();
+
+    private HttpClient() {
+    }
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClient.class);
 
     public static void main(String[] args) throws Exception {
@@ -37,23 +38,15 @@ public class HttpClient {
         TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
                     public void checkClientTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws CertificateException {
-
+                        // don't check
                     }
 
                     public void checkServerTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws CertificateException {
-
+                        // don't check
                     }
 
                     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                         return null;
-                    }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                        // don't check
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                        // don't check
                     }
                 }
         };
@@ -63,13 +56,11 @@ public class HttpClient {
             ctx = SSLContext.getInstance("TLS");
         } catch (NoSuchAlgorithmException e) {
             LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
         }
         try {
             ctx.init(null, trustAllCerts, null);
         } catch (KeyManagementException e) {
             LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
         }
 
 
@@ -89,16 +80,15 @@ public class HttpClient {
             response = httpclient.execute(request);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
         }
         String responseBody = null;
         try {
             responseBody = IOUtils.toString(response.getEntity().getContent(), "utf-8");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-            throw new RuntimeException(e);
         }
-        if (LOGGER.isDebugEnabled()) LOGGER.debug(responseBody);
+        if (LOGGER.isDebugEnabled())
+            LOGGER.debug(responseBody);
         return responseBody;
     }
 }

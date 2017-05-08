@@ -20,7 +20,9 @@ public class HelloWorldImpl implements HelloWorld {
     private HelloMapper helloMapper;
 
     public User sayHello(String world) {
-        if(logger.isInfoEnabled()) logger.info(helloMapper.toString());
+        if(logger.isInfoEnabled()){
+            logger.info(helloMapper.toString());
+        }
         return helloMapper.getUser("u1");
     }
 }

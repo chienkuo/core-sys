@@ -239,7 +239,7 @@ class WebDriverPool {
             throw new IllegalStateException("Already closed!");
         }
         for (WebDriver webDriver : webDriverList) {
-            LOGGER.info("Quit webDriver" + webDriver);
+            LOGGER.info("Quit webDriver %s" , webDriver);
             webDriver.quit();
         }
     }

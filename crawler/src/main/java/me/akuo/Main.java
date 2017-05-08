@@ -61,7 +61,9 @@ public class Main {
             String resp2 = HttpClient.basicHttpsGetIgnoreCertificateValidation(url2);
             Map<String, Object> map2 = gson.fromJson(resp2, Map.class);
             if ("200".equals((String) map2.get("status"))) {
-                if (LOGGER.isInfoEnabled()) LOGGER.info(num);
+                if (LOGGER.isInfoEnabled()){
+                    LOGGER.info(num);
+                }
                 List<Map> list2 = (List<Map>) map2.get("data");
                 for (Map map3 : list2) {
                     if (LOGGER.isInfoEnabled())
