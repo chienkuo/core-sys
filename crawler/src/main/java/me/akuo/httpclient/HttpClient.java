@@ -8,6 +8,8 @@ import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -23,13 +25,14 @@ import java.security.cert.CertificateException;
  */
 public class HttpClient {
     private static Gson gson = new Gson();
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpClient.class);
 
     public static void main(String[] args) throws Exception {
         String url = "https://www.kuaidi100.com/autonumber/autoComNum?text=1008792580124";
         basicHttpsGetIgnoreCertificateValidation(url);
     }
 
-    public static String basicHttpsGetIgnoreCertificateValidation(String url) throws NoSuchAlgorithmException, KeyManagementException, IOException {
+    public static String basicHttpsGetIgnoreCertificateValidation(String url) {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
@@ -55,8 +58,20 @@ public class HttpClient {
                 }
         };
 
-        SSLContext ctx = SSLContext.getInstance("TLS");
-        ctx.init(null, trustAllCerts, null);
+        SSLContext ctx = null;
+        try {
+            ctx = SSLContext.getInstance("TLS");
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        try {
+            ctx.init(null, trustAllCerts, null);
+        } catch (KeyManagementException e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
 
         LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
 
@@ -69,9 +84,21 @@ public class HttpClient {
         request.setHeader("Referer", "https://www.kuaidi100.com/");
 
 
-        CloseableHttpResponse response = httpclient.execute(request);
-        String responseBody = IOUtils.toString(response.getEntity().getContent(), "utf-8");
-        System.out.println(responseBody);
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(request);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        String responseBody = null;
+        try {
+            responseBody = IOUtils.toString(response.getEntity().getContent(), "utf-8");
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        if (LOGGER.isDebugEnabled()) LOGGER.debug(responseBody);
         return responseBody;
     }
 }

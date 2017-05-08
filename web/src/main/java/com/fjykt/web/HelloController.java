@@ -22,7 +22,7 @@ public class HelloController {
     @RequestMapping(value = "/hello.json")
     @ResponseBody
     public String sayHello(@RequestParam String s) {
-        logger.info(helloWorld.sayHello(s).toString());
+        if(logger.isInfoEnabled()) logger.info(helloWorld.sayHello(s).toString());
         return helloWorld.sayHello(s).toString();
     }
 
