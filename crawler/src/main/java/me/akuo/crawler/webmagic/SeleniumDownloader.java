@@ -79,6 +79,7 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
             webDriver = webDriverPool.get();
         } catch (InterruptedException e) {
             LOGGER.warn("interrupted", e);
+            Thread.currentThread().interrupt();
             this.onError(request);
             return null;
         }
@@ -86,6 +87,7 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
         try {
             webDriver.get(request.getUrl());
         } catch (Exception e) {
+            LOGGER.error("error", e);
             webDriverPool.release(webDriver);
             this.onError(request);
             return null;
@@ -93,6 +95,7 @@ public class SeleniumDownloader extends AbstractDownloader implements Closeable 
         try {
             Thread.sleep(sleepTime);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             LOGGER.error(e.getMessage());
             this.onError(request);
             return null;

@@ -54,15 +54,12 @@ public class HttpClient {
         SSLContext ctx = null;
         try {
             ctx = SSLContext.getInstance("TLS");
-        } catch (NoSuchAlgorithmException e) {
-            LOGGER.error("error %s", e.getCause());
-        }
-        try {
             ctx.init(null, trustAllCerts, null);
-        } catch (KeyManagementException e) {
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error("error", e);
+        }catch (KeyManagementException e) {
             LOGGER.error("error", e);
         }
-
 
         LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
 
@@ -79,13 +76,16 @@ public class HttpClient {
         try {
             response = httpclient.execute(request);
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("error",e);
         }
         String responseBody = null;
+        if(response == null){
+            return null;
+        }
         try {
             responseBody = IOUtils.toString(response.getEntity().getContent(), "utf-8");
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("error", e);
         }
         if (LOGGER.isDebugEnabled())
             LOGGER.debug(responseBody);

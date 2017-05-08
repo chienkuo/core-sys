@@ -202,7 +202,7 @@ class WebDriverPool {
                         innerQueue.add(mDriver);
                         webDriverList.add(mDriver);
                     } catch (IOException e) {
-                        LOGGER.error(e.getMessage());
+                        LOGGER.error("error", e);
                     }
 
                     // ChromeDriver e = new ChromeDriver();

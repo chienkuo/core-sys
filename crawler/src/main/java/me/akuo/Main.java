@@ -34,9 +34,9 @@ public class Main {
                 doQuery(line);
             }
         } catch (FileNotFoundException fnfe) {
-            LOGGER.error(fnfe.getMessage());
+            LOGGER.error("error", fnfe);
         } catch (IOException ioe) {
-            LOGGER.error(ioe.getMessage());
+            LOGGER.error("error", ioe);
         } finally {
             try {
                 if (is != null) {
@@ -44,7 +44,7 @@ public class Main {
                     is = null;
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage());
+                LOGGER.error("error", e);
             }
         }
     }
