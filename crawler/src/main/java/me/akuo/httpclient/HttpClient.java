@@ -28,7 +28,7 @@ public class HttpClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClient.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         String url = "https://www.kuaidi100.com/autonumber/autoComNum?text=1008792580124";
         basicHttpsGetIgnoreCertificateValidation(url);
     }
@@ -55,12 +55,12 @@ public class HttpClient {
         try {
             ctx = SSLContext.getInstance("TLS");
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("error %s", e.getCause());
         }
         try {
             ctx.init(null, trustAllCerts, null);
         } catch (KeyManagementException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("error", e);
         }
 
 
