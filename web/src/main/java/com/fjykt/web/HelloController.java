@@ -25,6 +25,7 @@ public class HelloController {
         if (logger.isInfoEnabled()) {
             logger.info(helloWorld.sayHello(s).toString());
         }
+        System.out.println(s);
         return helloWorld.sayHello(s).toString();
     }
 
