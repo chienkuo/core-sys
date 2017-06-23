@@ -41,11 +41,11 @@ public class HttpPostClient {
             public void run() {
                 post(url);
             }};
-        for (int i = 0; i < 900*10000; i++){
+        for (int i = 0; i < 500*10000; i++){
             executor.submit( runnable);
         }
         executor.shutdown();
-        if (!executor.awaitTermination(1, TimeUnit.HOURS)) {
+        if (!executor.awaitTermination(7, TimeUnit.DAYS)) {
             LOGGER.info("Still waiting after 100ms: calling System.exit(0)...");
             System.exit(0);
         }

@@ -1,4 +1,4 @@
-package me.akuo.sel;
+package sel;
 
 /**
  * Created by Akuo on 2017/4/12.
