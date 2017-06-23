@@ -47,10 +47,15 @@
             <artifactId>spring-batch-core</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>cn.easyproject</groupId>
             <artifactId>ojdbc5</artifactId>
             <version>11.2.0.4</version>
+        </dependency>-->
+        <dependency>
+            <groupId>ojdbc</groupId>
+            <artifactId>ojdbc</artifactId>
+            <version>14</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
