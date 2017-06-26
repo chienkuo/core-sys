@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.fjykt</groupId>
+            <groupId>me.akuo</groupId>
             <artifactId>service-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

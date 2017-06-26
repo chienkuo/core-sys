@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fjykt</groupId>
+            <groupId>me.akuo</groupId>
             <artifactId>service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
