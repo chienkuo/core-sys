@@ -1,4 +1,4 @@
-package com.fjykt.domain;
+package me.akuo.domain;
 
 import java.io.Serializable;
 

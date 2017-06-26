@@ -1,6 +1,5 @@
-package com.fjykt.mapper;
+package me.akuo.mapper;
 
-import com.fjykt.domain.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

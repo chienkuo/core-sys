@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>core-sys</artifactId>
-        <groupId>com.fjykt</groupId>
+        <groupId>me.akuo</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -114,9 +114,6 @@
                         </goals>
                         <configuration>
                             <transformers>
-                                &lt;!&ndash;<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.springframework.batch.core.launch.support.CommandLineJobRunner</mainClass>
-                                </transformer>&ndash;&gt;
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.handlers</resource>
                                 </transformer>

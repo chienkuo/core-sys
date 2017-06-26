@@ -1,6 +1,6 @@
-package com.fjykt.service;
+package me.akuo.service;
 
-import com.fjykt.domain.User;
+import me.akuo.domain.User;
 
 /**
  * Created by pc on 2017/4/7.

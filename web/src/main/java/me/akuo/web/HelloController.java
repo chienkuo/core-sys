@@ -1,6 +1,6 @@
-package com.fjykt.web;
+package me.akuo.web;
 
-import com.fjykt.service.HelloWorld;
+import me.akuo.service.HelloWorld;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
